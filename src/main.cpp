@@ -18,6 +18,7 @@ int main(int argc, char **argv)
     MainWindow *window = nullptr;
     builder->get_widget_derived("MainWindow", window);
 
+
     auto mainApp = app->run(*window);
 
     delete window;

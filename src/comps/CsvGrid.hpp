@@ -12,6 +12,8 @@ public:
     CsvGrid(Gtk::Grid::BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>& builder);
     void addNewRow();
     void pruneRows();
+    void importRows();
 private:
     std::vector<CsvEntryLine> lines;
+    Gtk::FileChooserDialog *chooser;
 };

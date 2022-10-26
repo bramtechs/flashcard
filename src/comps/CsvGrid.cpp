@@ -3,6 +3,7 @@
 #include <tuple>
 
 #include "CsvGrid.hpp"
+#include "../utils.hpp"
 
 CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, const Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
 }
@@ -39,4 +40,13 @@ void CsvGrid::pruneRows() {
         }
     }
     std::cout << "Pruned empty lines" << std::endl;
+}
+
+void import_responded(const std::string& filepath){
+   std::cout << "Importing from " << filepath << std::endl;
+}
+
+void CsvGrid::importRows() {
+    chooser = utils::allocateCsvOpenDialog(&import_responded);
+    chooser->show();
 }

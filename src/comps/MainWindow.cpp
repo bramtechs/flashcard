@@ -17,4 +17,7 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
     builder->get_widget("PruneButton", pruneButton);
     pruneButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::pruneRows));
 
+    Gtk::Button *importButton = nullptr;
+    builder->get_widget("ImportButton", importButton);
+    importButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::importRows));
 }
