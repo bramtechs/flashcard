@@ -8,7 +8,7 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
     // get the grid and cast to CsvGrid
     builder->get_widget_derived("CellGrid",csvGrid);
 
-    // link signals
+    // linkSignals signals
     Gtk::Button *addRowButton = nullptr;
     builder->get_widget("AddRowButton", addRowButton);
     addRowButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::addNewRow));
@@ -16,4 +16,5 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
     Gtk::Button *pruneButton = nullptr;
     builder->get_widget("PruneButton", pruneButton);
     pruneButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::pruneRows));
+
 }

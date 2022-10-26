@@ -1,7 +1,8 @@
 
-#include "CsvGrid.hpp"
 #include <iostream>
 #include <tuple>
+
+#include "CsvGrid.hpp"
 
 CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, const Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
 }
