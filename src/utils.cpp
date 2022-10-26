@@ -1,5 +1,8 @@
 
 #include "utils.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <fstream>
 #include <gtkmm.h>
 
@@ -27,26 +30,10 @@ bool utils::try_add_glade_file(Glib::RefPtr<Gtk::Builder> &builder, const std::s
     return false;
 }
 
-Gtk::FileChooserDialog *utils::allocateCsvOpenDialog(void (*callback)(const std::string&)) {
+Gtk::FileChooserDialog *utils::allocate_open_csv_dialog() {
     auto chooser = new Gtk::FileChooserDialog("Choose a csv file", Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN,
                                               Gtk::DIALOG_MODAL);
 
-    // on picker responded
-    chooser->signal_response().connect([=](int response) {
-        switch (response) {
-            case Gtk::ResponseType::RESPONSE_OK:
-                callback(chooser->get_filename());
-                break;
-            case Gtk::ResponseType::RESPONSE_CANCEL:
-                std::cout << "File picker canceled." << std::endl;
-                break;
-            default:
-                std::cout << "Unexpected button clicked." << std::endl;
-                break;
-        }
-        delete chooser;
-        std::cout << "Disposed file picker." << std::endl;
-    });
 
     //Add response buttons to the dialog:
     chooser->add_button("_Cancel", Gtk::ResponseType::RESPONSE_CANCEL);
@@ -63,4 +50,20 @@ Gtk::FileChooserDialog *utils::allocateCsvOpenDialog(void (*callback)(const std:
     chooser->add_filter(filter_any);
 
     return chooser;
+}
+
+std::string utils::read_file_as_string(const std::string& fileName) {
+    std::string line;
+    std::string content;
+    std::ifstream file(fileName);
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            content += line + '\n';
+        }
+        file.close();
+    } else {
+        std::cout << "Unable to open file" << std::endl;
+    }
+
+    return content;
 }

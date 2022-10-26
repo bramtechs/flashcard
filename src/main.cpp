@@ -2,6 +2,7 @@
 #include <gtkmm.h>
 #include "utils.hpp"
 #include "comps/MainWindow.hpp"
+#include "parser.hpp"
 
 constexpr const char* GLADE_FILE_PATH = "assets/application.glade";
 
@@ -18,6 +19,7 @@ int main(int argc, char **argv)
     MainWindow *window = nullptr;
     builder->get_widget_derived("MainWindow", window);
 
+    parser::test_string_to_records();
 
     auto mainApp = app->run(*window);
 

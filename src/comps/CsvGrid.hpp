@@ -16,4 +16,5 @@ public:
 private:
     std::vector<CsvEntryLine> lines;
     Gtk::FileChooserDialog *chooser;
+    void import_responded(int response);
 };
