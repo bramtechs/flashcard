@@ -9,8 +9,5 @@ public:
     MainWindow(Gtk::ApplicationWindow::BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>& builder);
 private:
     CsvGrid *csvGrid;
-    void test(int response){
-        std::cout << "worked" << std::endl;
-    };
 };
 

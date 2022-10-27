@@ -61,3 +61,14 @@ void parser::test_string_to_records(){
     }
 }
 
+std::string parser::records_to_string(std::vector<ParsedCsvRecord> &records) {
+    std::string result;
+    for (auto record: records){
+        result += record.definition;
+        result += ',';
+        result += record.word;
+        result += '\n';
+    }
+    return result;
+}
+

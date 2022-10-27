@@ -6,7 +6,7 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
         : Gtk::ApplicationWindow(obj) {
 
     // get the grid and cast to CsvGrid
-    builder->get_widget_derived("CellGrid",csvGrid);
+    builder->get_widget_derived("CellGrid", csvGrid);
 
     // linkSignals signals
     Gtk::Button *addRowButton = nullptr;
@@ -20,4 +20,25 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
     Gtk::Button *importButton = nullptr;
     builder->get_widget("ImportButton", importButton);
     importButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::importRows));
+
+    // menubar
+    Gtk::ImageMenuItem *quitMenuButton = nullptr;
+    builder->get_widget("MenuFileQuit", quitMenuButton);
+    quitMenuButton->signal_activate().connect(sigc::mem_fun(*this,&MainWindow::close));
+
+    Gtk::ImageMenuItem *newMenuButton = nullptr;
+    builder->get_widget("MenuFileNew", newMenuButton);
+    newMenuButton->signal_activate().connect(sigc::mem_fun(*csvGrid,&CsvGrid::resetRows));
+
+    Gtk::ImageMenuItem *openMenuButton = nullptr;
+    builder->get_widget("MenuFileOpen", openMenuButton);
+    openMenuButton->signal_activate().connect(sigc::mem_fun(*csvGrid,&CsvGrid::openRows));
+
+    Gtk::ImageMenuItem *saveMenuButton = nullptr;
+    builder->get_widget("MenuFileSave", saveMenuButton);
+    saveMenuButton->signal_activate().connect(sigc::mem_fun(*csvGrid,&CsvGrid::exportRows));
+
+    Gtk::ImageMenuItem *saveAsMenuButton = nullptr;
+    builder->get_widget("MenuFileSaveAs", saveAsMenuButton);
+    saveAsMenuButton->signal_activate().connect(sigc::mem_fun(*csvGrid,&CsvGrid::exportAsRows));
 }

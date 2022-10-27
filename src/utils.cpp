@@ -30,25 +30,38 @@ bool utils::try_add_glade_file(Glib::RefPtr<Gtk::Builder> &builder, const std::s
     return false;
 }
 
-Gtk::FileChooserDialog *utils::allocate_open_csv_dialog() {
-    auto chooser = new Gtk::FileChooserDialog("Choose a csv file", Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN,
-                                              Gtk::DIALOG_MODAL);
-
-
-    //Add response buttons to the dialog:
-    chooser->add_button("_Cancel", Gtk::ResponseType::RESPONSE_CANCEL);
-    chooser->add_button("_Open", Gtk::ResponseType::RESPONSE_OK);
-
+void add_filters_to_dialog(Gtk::FileChooserDialog *dialog){
     auto filter_csv = Gtk::FileFilter::create();
     filter_csv->set_name("csv/Comma Seperated Values");
     filter_csv->add_mime_type("text/x-csv");
-    chooser->add_filter(filter_csv);
+    dialog->add_filter(filter_csv);
 
     auto filter_any = Gtk::FileFilter::create();
     filter_any->set_name("Any files");
     filter_any->add_pattern("*");
-    chooser->add_filter(filter_any);
+    dialog->add_filter(filter_any);
+}
 
+Gtk::FileChooserDialog *utils::allocate_open_csv_dialog() {
+    auto chooser = new Gtk::FileChooserDialog("Choose a csv file", Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN,
+                                              Gtk::DIALOG_MODAL);
+    add_filters_to_dialog(chooser);
+
+    //Add response buttons to the dialog:
+    chooser->add_button("_Cancel", Gtk::ResponseType::RESPONSE_CANCEL);
+    chooser->add_button("_Open", Gtk::ResponseType::RESPONSE_OK);
+    return chooser;
+}
+
+Gtk::FileChooserDialog *utils::allocate_save_csv_dialog() {
+    auto chooser = new Gtk::FileChooserDialog("Choose destination", Gtk::FileChooserAction::FILE_CHOOSER_ACTION_SAVE,
+                                              Gtk::DIALOG_MODAL);
+
+    //Add response buttons to the dialog:
+    chooser->add_button("_Cancel", Gtk::ResponseType::RESPONSE_CANCEL);
+    chooser->add_button("_Save", Gtk::ResponseType::RESPONSE_YES);
+
+    add_filters_to_dialog(chooser);
     return chooser;
 }
 
