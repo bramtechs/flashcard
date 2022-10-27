@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <fstream>
+#include <assert.h>
 #include <gtkmm.h>
 
 bool utils::file_exists(const std::string &path) {
@@ -19,13 +20,13 @@ bool utils::try_add_glade_file(Glib::RefPtr<Gtk::Builder> &builder, const std::s
     catch (const Glib::FileError &ex) {
         // This was your case, because the Application.glade file could
         // not be located:
-        std::cout << "File error :" << ex.what() << std::endl;
+        utils::error("File error : " + ex.what());
     }
     catch (const Glib::MarkupError &ex) {
-        std::cout << "Markup error :" << ex.what() << std::endl;
+        utils::error("Markup error : " + ex.what());
     }
     catch (const Gtk::BuilderError &ex) {
-        std::cout << "Builder error :" << ex.what() << std::endl;
+        utils::error("Builder error : " + ex.what());
     }
     return false;
 }
@@ -75,8 +76,27 @@ std::string utils::read_file_as_string(const std::string& fileName) {
         }
         file.close();
     } else {
-        std::cout << "Unable to open file" << std::endl;
+        utils::error("Unable to open file " + fileName);
     }
 
     return content;
+}
+
+void utils::log(const std::string& text){
+    std::cout << "[INFO]: " << text << std::endl;
+}
+
+void utils::warn(const std::string& text){
+    std::cout << "[WARN]: " << text << std::endl;
+}
+
+void utils::error(const std::string& text){
+    std::cout << "[ERROR]: " << text << std::endl;
+}
+
+void utils::logAssert(const std::string& text, bool condition){
+    if (!condition){
+        error(text);
+    }
+    assert(condition);
 }

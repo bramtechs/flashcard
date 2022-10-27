@@ -35,7 +35,7 @@ void CsvGrid::pruneRows() {
             ++line;
         }
     }
-    std::cout << "Pruned empty lines" << std::endl;
+    utils::log("Pruned empty lines");
 }
 
 void CsvGrid::resetRows() {
@@ -53,7 +53,7 @@ void CsvGrid::import_responded(int response) {
     if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_YES) {
         std::string filepath = chooser->get_filename();
 
-        std::cout << "Importing from " << filepath << std::endl;
+        utils::log("Importing from " + filepath);
         std::string content = utils::read_file_as_string(filepath);
         std::vector<parser::ParsedCsvRecord> records = parser::string_to_records(content);
 
@@ -65,7 +65,7 @@ void CsvGrid::import_responded(int response) {
             line->definition.set_text(record.definition);
         }
     }else{
-        std::cout << "Gave unexpected response" << response << std::endl;
+        utils::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
     chooser = nullptr;
@@ -86,9 +86,9 @@ void CsvGrid::export_responded(int response) {
         }
         currentFile = filepath;
 
-        std::cout << "Exporting to " << filepath << std::endl;
+        utils::log("Exporting to " + filepath);
     }else{
-        std::cout << "Gave unexpected response " << response << std::endl;
+        utils::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
     chooser = nullptr;
@@ -96,10 +96,10 @@ void CsvGrid::export_responded(int response) {
 
 void CsvGrid::exportRows() {
     if (!currentFile.empty()) {
-        std::cout << "Saving to open file " << currentFile;
+        utils::log("Saving to open file " +  currentFile);
         export_responded(GTK_RESPONSE_OK);
     } else {
-        std::cout << "Saving as " << currentFile;
+        utils::log("Saving as new file " +  currentFile);
         exportAsRows();
     }
 }
