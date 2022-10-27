@@ -21,9 +21,9 @@ std::vector<parser::ParsedCsvRecord> parser::string_to_records(const std::string
         std::erase(line,'\r');
 
         // parse the line comma or semicolon
-        unsigned comma = line.find(',');
+        unsigned comma = line.find(';');
         if (comma > THRESHOLD) {
-            comma = line.find(';');
+            comma = line.find(',');
         }
 
         if (comma < THRESHOLD) {
@@ -35,7 +35,6 @@ std::vector<parser::ParsedCsvRecord> parser::string_to_records(const std::string
             utils::error("Failed to parse line " + line);
         }
 
-
         index = endIndex;
     }
 
@@ -45,7 +44,7 @@ std::vector<parser::ParsedCsvRecord> parser::string_to_records(const std::string
 void parser::test_string_to_records(){
     auto result = string_to_records("hello,world\nfoo,bar\nbuzz,bazz");
     if (!result.empty()){
-        for (auto record : result){
+        for (const auto& record : result){
             std::cout << record.word << " : " << record.definition << std::endl;
         }
     }else{
@@ -54,7 +53,7 @@ void parser::test_string_to_records(){
 
     result = string_to_records("hello,world");
     if (!result.empty()){
-        for (auto record : result){
+        for (const auto& record : result){
             std::cout << record.word << " : " << record.definition << std::endl;
         }
     }else{
@@ -64,9 +63,9 @@ void parser::test_string_to_records(){
 
 std::string parser::records_to_string(std::vector<ParsedCsvRecord> &records) {
     std::string result;
-    for (auto record: records){
+    for (const auto& record: records){
         result += record.definition;
-        result += ',';
+        result += ';';
         result += record.word;
         result += '\n';
     }

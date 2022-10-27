@@ -86,7 +86,25 @@ void CsvGrid::export_responded(int response) {
         }
         currentFile = filepath;
 
-        utils::log("Exporting to " + filepath);
+        // prune rows before saving
+        pruneRows();
+
+        // parse gtk entry widgets
+        std::vector<parser::ParsedCsvRecord> records;
+        auto line = std::begin(lines);
+        while (line != std::end(lines)) {
+            auto word = &line->word;
+            auto def = &line->definition;
+            records.push_back({
+                .word = word->get_text(),
+                .definition = def->get_text(),
+            });
+            ++line;
+        }
+
+        std::string result = parser::records_to_string(records);
+        utils::write_string_to_file(filepath,result);
+        utils::log("Exported to " + filepath);
     }else{
         utils::warn("Gave unexpected response " + std::to_string(response));
     }
@@ -95,6 +113,7 @@ void CsvGrid::export_responded(int response) {
 }
 
 void CsvGrid::exportRows() {
+
     if (!currentFile.empty()) {
         utils::log("Saving to open file " +  currentFile);
         export_responded(GTK_RESPONSE_OK);
