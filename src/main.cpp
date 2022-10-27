@@ -1,8 +1,7 @@
 #include <iostream>
 #include <gtkmm.h>
-#include "utils.hpp"
 #include "comps/MainWindow.hpp"
-#include "parser.hpp"
+#include "common.hpp"
 
 constexpr const char* GLADE_FILE_PATH = "assets/application.glade";
 

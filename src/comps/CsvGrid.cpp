@@ -3,8 +3,7 @@
 #include <tuple>
 
 #include "CsvGrid.hpp"
-#include "../utils.hpp"
-#include "../parser.hpp"
+#include "../common.hpp"
 
 CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, const Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
 }
@@ -35,7 +34,7 @@ void CsvGrid::pruneRows() {
             ++line;
         }
     }
-    utils::log("Pruned empty lines");
+    logger::log("Pruned empty lines");
 }
 
 void CsvGrid::resetRows() {
@@ -53,7 +52,7 @@ void CsvGrid::import_responded(int response) {
     if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_YES) {
         std::string filepath = chooser->get_filename();
 
-        utils::log("Importing from " + filepath);
+        logger::log("Importing from " + filepath);
         std::string content = utils::read_file_as_string(filepath);
         std::vector<parser::ParsedCsvRecord> records = parser::string_to_records(content);
 
@@ -65,7 +64,7 @@ void CsvGrid::import_responded(int response) {
             line->definition.set_text(record.definition);
         }
     }else{
-        utils::warn("Gave unexpected response " + std::to_string(response));
+        logger::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
     chooser = nullptr;
@@ -104,9 +103,9 @@ void CsvGrid::export_responded(int response) {
 
         std::string result = parser::records_to_string(records);
         utils::write_string_to_file(filepath,result);
-        utils::log("Exported to " + filepath);
+        logger::log("Exported to " + filepath);
     }else{
-        utils::warn("Gave unexpected response " + std::to_string(response));
+        logger::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
     chooser = nullptr;
@@ -115,22 +114,22 @@ void CsvGrid::export_responded(int response) {
 void CsvGrid::exportRows() {
 
     if (!currentFile.empty()) {
-        utils::log("Saving to open file " +  currentFile);
+        logger::log("Saving to open file " + currentFile);
         export_responded(GTK_RESPONSE_OK);
     } else {
-        utils::log("Saving as new file " +  currentFile);
+        logger::log("Saving as new file " + currentFile);
         exportAsRows();
     }
 }
 
 void CsvGrid::exportAsRows() {
-    chooser = utils::allocate_save_csv_dialog();
+    chooser = picker::allocate_save_csv_dialog();
     chooser->signal_response().connect(sigc::mem_fun(*this, &CsvGrid::export_responded));
     chooser->show();
 }
 
 void CsvGrid::importRows() {
-    chooser = utils::allocate_open_csv_dialog();
+    chooser = picker::allocate_open_csv_dialog();
     // on picker responded
     chooser->signal_response().connect(sigc::mem_fun(*this, &CsvGrid::import_responded));
 

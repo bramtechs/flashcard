@@ -1,5 +1,5 @@
 #include "parser.hpp"
-#include "utils.hpp"
+#include "logger.hpp"
 
 std::vector<parser::ParsedCsvRecord> parser::string_to_records(const std::string &content) {
     auto vec = std::vector<ParsedCsvRecord>();
@@ -32,7 +32,7 @@ std::vector<parser::ParsedCsvRecord> parser::string_to_records(const std::string
                 .definition = line.substr(comma+1),
             });
         }else{
-            utils::error("Failed to parse line " + line);
+            logger::error("Failed to parse line " + line);
         }
 
         index = endIndex;
@@ -48,7 +48,7 @@ void parser::test_string_to_records(){
             std::cout << record.word << " : " << record.definition << std::endl;
         }
     }else{
-        utils::error("test_string_to_records returned empty");
+        logger::error("test_string_to_records returned empty");
     }
 
     result = string_to_records("hello,world");
@@ -57,7 +57,7 @@ void parser::test_string_to_records(){
             std::cout << record.word << " : " << record.definition << std::endl;
         }
     }else{
-        utils::error("test_string_to_records returned empty");
+        logger::error("test_string_to_records returned empty");
     }
 }
 
