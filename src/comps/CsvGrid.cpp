@@ -1,11 +1,11 @@
 
 #include <iostream>
-#include <tuple>
 
 #include "CsvGrid.hpp"
 #include "../common.hpp"
 
-CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, const Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
+CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
+    this->builder = builder;
 }
 
 void CsvGrid::addNewRow() {
@@ -134,4 +134,11 @@ void CsvGrid::importRows() {
     chooser->signal_response().connect(sigc::mem_fun(*this, &CsvGrid::import_responded));
 
     chooser->show();
+}
+
+void CsvGrid::startSession() {
+    logger::log("Starting session!");
+    SessionWindow *window = nullptr;
+    builder->get_widget_derived("SessionWindow", window);
+    window->show_all();
 }

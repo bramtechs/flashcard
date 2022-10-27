@@ -18,8 +18,6 @@ int main(int argc, char **argv)
     MainWindow *window = nullptr;
     builder->get_widget_derived("MainWindow", window);
 
-    parser::test_string_to_records();
-
     auto mainApp = app->run(*window);
 
     delete window;
