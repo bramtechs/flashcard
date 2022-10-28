@@ -21,7 +21,7 @@ Start a new session with 'Start'.
 - cmake
 - (optional) Glade for GUI editing
 
-🧡 Push requests appreciated!
+🧡 Pull-requests appreciated!
 
 ## TODO
 - Card iteration based on score
