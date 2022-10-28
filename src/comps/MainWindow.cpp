@@ -21,7 +21,7 @@ MainWindow::MainWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const Glib::
     builder->get_widget("ImportButton", importButton);
     importButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::importRows));
 
-    Gtk::Button *startButton = nullptr;
+    Gtk::Button* startButton = nullptr;
     builder->get_widget("StartButton", startButton);
     startButton->signal_clicked().connect(sigc::mem_fun(*csvGrid, &CsvGrid::startSession));
 

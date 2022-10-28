@@ -65,7 +65,7 @@ void CsvGrid::import_responded(int response) {
             line->word.set_text(record.word);
             line->definition.set_text(record.definition);
         }
-    }else{
+    } else {
         logger::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
@@ -80,9 +80,9 @@ void CsvGrid::openRows() {
 void CsvGrid::export_responded(int response) {
     if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_YES) {
         std::string filepath;
-        if (chooser == nullptr){
+        if (chooser == nullptr) {
             filepath = currentFile;
-        }else{
+        } else {
             filepath = chooser->get_filename();
         }
         currentFile = filepath;
@@ -94,9 +94,9 @@ void CsvGrid::export_responded(int response) {
         auto records = utils::parse_gtk_entries(lines);
 
         std::string result = parser::records_to_string(records);
-        utils::write_string_to_file(filepath,result);
+        utils::write_string_to_file(filepath, result);
         logger::log("Exported to " + filepath);
-    }else{
+    } else {
         logger::warn("Gave unexpected response " + std::to_string(response));
     }
     delete chooser;
@@ -129,18 +129,27 @@ void CsvGrid::importRows() {
 }
 
 void CsvGrid::startSession() {
-    logger::log("Starting session!");
-    SessionWindow *window = nullptr;
-    builder->get_widget_derived("SessionWindow", window);
+    pruneRows();
+    if (hasRows()) {
+        logger::log("Starting session!");
+        SessionWindow *window = nullptr;
+        builder->get_widget_derived("SessionWindow", window);
 
-    // session
-    auto records = utils::parse_gtk_entries(lines);
-    std::shuffle(records.begin(), records.end(), std::mt19937(std::random_device()()));
+        // session
+        auto records = utils::parse_gtk_entries(lines);
+        std::shuffle(records.begin(), records.end(), std::mt19937(std::random_device()()));
 
-    structs::Session session = {
-            .records = records
-    };
+        structs::Session session = {
+                .records = records
+        };
 
-    window->init(session);
-    window->show_all();
+        window->init(session);
+        window->show_all();
+    }else {
+        logger::warn("No rows defined!");
+    }
+}
+
+bool CsvGrid::hasRows() {
+    return !lines.empty();
 }
