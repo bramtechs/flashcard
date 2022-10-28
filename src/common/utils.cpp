@@ -45,7 +45,7 @@ std::string utils::read_file_as_string(const std::string &fileName) {
     return content;
 }
 
-bool utils::write_string_to_file(const std::string &filename, const std::string& content) {
+bool utils::write_string_to_file(const std::string &filename, const std::string &content) {
     std::ofstream file(filename);
     if (file.is_open()) {
         file << content;
@@ -54,4 +54,19 @@ bool utils::write_string_to_file(const std::string &filename, const std::string&
     }
     logger::error("Unable to write to file " + filename);
     return false;
+}
+
+std::vector<parser::ParsedCsvRecord> utils::parse_gtk_entries(std::vector<structs::CsvEntryLine>& lines) {
+    std::vector<parser::ParsedCsvRecord> records;
+    auto line = std::begin(lines);
+    while (line != std::end(lines)) {
+        auto word = &line->word;
+        auto def = &line->definition;
+        records.push_back({
+                                  .word = word->get_text(),
+                                  .definition = def->get_text(),
+                          });
+        ++line;
+    }
+    return records;
 }

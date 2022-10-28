@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <gtkmm.h>
+#include "structs.hpp"
 
 namespace utils {
     bool file_exists(const std::string &path);
@@ -11,4 +12,6 @@ namespace utils {
     bool write_string_to_file(const std::string &filename, const std::string &content);
 
     bool try_add_glade_file(Glib::RefPtr<Gtk::Builder> &builder, const std::string &path);
+
+    std::vector<parser::ParsedCsvRecord> parse_gtk_entries(std::vector<structs::CsvEntryLine>& lines);
 }

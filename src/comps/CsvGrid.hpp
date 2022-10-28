@@ -1,12 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "SessionWindow.hpp"
-
-struct CsvEntryLine {
-    Gtk::Entry word;
-    Gtk::Entry definition;
-};
+#include "../common.hpp"
 
 class CsvGrid : public Gtk::Grid {
 public:
@@ -21,7 +16,7 @@ public:
     void startSession();
 private:
     std::string currentFile;
-    std::vector<CsvEntryLine> lines;
+    std::vector<structs::CsvEntryLine> lines;
     Gtk::FileChooserDialog *chooser;
 
     Glib::RefPtr<Gtk::Builder> builder;

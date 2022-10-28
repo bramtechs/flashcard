@@ -3,6 +3,7 @@
 
 #include "CsvGrid.hpp"
 #include "../common.hpp"
+#include "SessionWindow.hpp"
 
 CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> &builder) : Gtk::Grid(obj) {
     this->builder = builder;
@@ -11,7 +12,7 @@ CsvGrid::CsvGrid(Gtk::Grid::BaseObjectType *obj, Glib::RefPtr<Gtk::Builder> &bui
 void CsvGrid::addNewRow() {
     lines.emplace_back();
 
-    CsvEntryLine *line = &lines[lines.size() - 1];
+    structs::CsvEntryLine *line = &lines[lines.size() - 1];
 
     int y = (int) lines.size();
     attach(line->word, 0, y);
@@ -59,7 +60,7 @@ void CsvGrid::import_responded(int response) {
         unsigned int startRow = lines.size();
         for (const parser::ParsedCsvRecord &record: records) {
             addNewRow();
-            CsvEntryLine *line = &lines[lines.size() - 1];
+            structs::CsvEntryLine *line = &lines[lines.size() - 1];
             line->word.set_text(record.word);
             line->definition.set_text(record.definition);
         }
@@ -89,17 +90,7 @@ void CsvGrid::export_responded(int response) {
         pruneRows();
 
         // parse gtk entry widgets
-        std::vector<parser::ParsedCsvRecord> records;
-        auto line = std::begin(lines);
-        while (line != std::end(lines)) {
-            auto word = &line->word;
-            auto def = &line->definition;
-            records.push_back({
-                .word = word->get_text(),
-                .definition = def->get_text(),
-            });
-            ++line;
-        }
+        auto records = utils::parse_gtk_entries(lines);
 
         std::string result = parser::records_to_string(records);
         utils::write_string_to_file(filepath,result);
@@ -140,5 +131,12 @@ void CsvGrid::startSession() {
     logger::log("Starting session!");
     SessionWindow *window = nullptr;
     builder->get_widget_derived("SessionWindow", window);
+
+    // session
+    structs::Session session = {
+            .records = utils::parse_gtk_entries(lines)
+    };
+
+    window->init(session);
     window->show_all();
 }
