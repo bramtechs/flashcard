@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <random>
 
 #include "CsvGrid.hpp"
 #include "../common.hpp"
@@ -133,8 +134,11 @@ void CsvGrid::startSession() {
     builder->get_widget_derived("SessionWindow", window);
 
     // session
+    auto records = utils::parse_gtk_entries(lines);
+    std::shuffle(records.begin(), records.end(), std::mt19937(std::random_device()()));
+
     structs::Session session = {
-            .records = utils::parse_gtk_entries(lines)
+            .records = records
     };
 
     window->init(session);

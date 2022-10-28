@@ -346,10 +346,12 @@
                   <object class="GtkButton" id="SessionBad">
                     <property name="label">gtk-dialog-error</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
                     <property name="use-stock">True</property>
                     <property name="always-show-image">True</property>
+                    <accelerator key="x" signal="clicked"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -358,9 +360,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch">
+                  <object class="GtkSwitch" id="SessionSwitch">
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
+                    <property name="can-focus">False</property>
+                    <accelerator key="space" signal="activate"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -372,10 +375,12 @@
                   <object class="GtkButton" id="SessionGood">
                     <property name="label">gtk-ok</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can-focus">False</property>
                     <property name="receives-default">True</property>
                     <property name="use-stock">True</property>
                     <property name="always-show-image">True</property>
+                    <accelerator key="o" signal="clicked"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -404,10 +409,11 @@
               <object class="GtkButton" id="SessionPrevious">
                 <property name="label">gtk-go-back</property>
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="can-focus">False</property>
                 <property name="receives-default">True</property>
                 <property name="use-stock">True</property>
                 <property name="always-show-image">True</property>
+                <accelerator key="j" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -416,10 +422,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="SessionTimer">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">⏱️ 0 min</property>
+                <property name="label" translatable="yes">⏱️ </property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -445,11 +451,13 @@
               <object class="GtkButton" id="SessionNext">
                 <property name="label">gtk-go-forward</property>
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="can-focus">False</property>
                 <property name="receives-default">True</property>
                 <property name="use-stock">True</property>
                 <property name="image-position">right</property>
                 <property name="always-show-image">True</property>
+                <accelerator key="Return" signal="clicked"/>
+                <accelerator key="k" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">True</property>
