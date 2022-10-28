@@ -23,5 +23,6 @@ Start a new session with 'Start'.
 
 🧡 Pull-requests appreciated!
 
-## TODO
-- Card iteration based on score
+## Motivations
+- Learning C++ with Gtk-development.
+- Discovering the abundance of Linux packaging formats.
