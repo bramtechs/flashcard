@@ -52,18 +52,19 @@ void CsvGrid::resetRows() {
 
 void CsvGrid::import_responded(int response) {
     if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_YES) {
-        std::string filepath = chooser->get_filename();
+        auto filepaths = chooser->get_filenames();
+        for (const auto& filepath: filepaths) {
+            logger::log("Importing from " + filepath);
+            std::string content = utils::read_file_as_string(filepath);
+            std::vector<parser::ParsedCsvRecord> records = parser::string_to_records(content);
 
-        logger::log("Importing from " + filepath);
-        std::string content = utils::read_file_as_string(filepath);
-        std::vector<parser::ParsedCsvRecord> records = parser::string_to_records(content);
-
-        unsigned int startRow = lines.size();
-        for (const parser::ParsedCsvRecord &record: records) {
-            addNewRow();
-            structs::CsvEntryLine *line = &lines[lines.size() - 1];
-            line->word.set_text(record.word);
-            line->definition.set_text(record.definition);
+            unsigned int startRow = lines.size();
+            for (const parser::ParsedCsvRecord &record: records) {
+                addNewRow();
+                structs::CsvEntryLine *line = &lines[lines.size() - 1];
+                line->word.set_text(record.word);
+                line->definition.set_text(record.definition);
+            }
         }
     } else {
         logger::warn("Gave unexpected response " + std::to_string(response));
@@ -145,7 +146,7 @@ void CsvGrid::startSession() {
 
         window->init(session);
         window->show_all();
-    }else {
+    } else {
         logger::warn("No rows defined!");
     }
 }

@@ -15,6 +15,7 @@ void add_filters_to_dialog(Gtk::FileChooserDialog *dialog) {
 Gtk::FileChooserDialog *picker::allocate_open_csv_dialog() {
     auto chooser = new Gtk::FileChooserDialog("Choose a csv file", Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN,
                                               Gtk::DIALOG_MODAL);
+    chooser->set_select_multiple(true);
     add_filters_to_dialog(chooser);
 
     //Add response buttons to the dialog:

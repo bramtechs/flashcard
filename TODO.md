@@ -1,8 +1,9 @@
 - [ ] Store difficult cards, delete easy cards
-- [ ] Add # token for comments
-- [ ] Add $ token to create doubled cards
-- [ ] Add end screen with option to export difficult cards
-- [ ] Select multiple files when importing
+- [X] Add # token for comments
+- [X] Add $ token to create doubled cards
+- [ ] Add end screen with option to export and retry difficult cards
+- [X] Select multiple files when importing
+- [ ] Remember last file pick location
 
 - [ ] Fix spaghetti code-base
 - [ ] Write testing

@@ -311,6 +311,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Bonjour</property>
+                <property name="wrap">True</property>
                 <attributes>
                   <attribute name="font-desc" value="Sans 32"/>
                 </attributes>
@@ -326,6 +327,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Goeiedag</property>
+                <property name="wrap">True</property>
                 <attributes>
                   <attribute name="font-desc" value="Sans Italic 16"/>
                 </attributes>
@@ -456,8 +458,8 @@
                 <property name="use-stock">True</property>
                 <property name="image-position">right</property>
                 <property name="always-show-image">True</property>
-                <accelerator key="Return" signal="clicked"/>
                 <accelerator key="k" signal="clicked"/>
+                <accelerator key="Return" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">True</property>
