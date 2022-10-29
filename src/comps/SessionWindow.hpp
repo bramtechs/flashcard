@@ -1,6 +1,7 @@
 #pragma once
 #include <gtkmm.h>
 #include "../common.hpp"
+#include "SessionClock.hpp"
 
 class SessionWindow : public Gtk::ApplicationWindow {
 public:
@@ -8,7 +9,6 @@ public:
     void init(structs::Session& ses);
 private:
     structs::Session session;
-    int minutesPassed;
 
     int currentIndex;
     bool answerVisible;
@@ -22,14 +22,9 @@ private:
     Gtk::Button *goodButton;
     Gtk::Button *badButton;
     Gtk::ProgressBar *sessionProgress;
-
-    // TODO put in own class
-    Gtk::Label* timerLabel;
-    std::string timerLabelOriginalText;
+    SessionClock *clock;
 
     std::vector<parser::ParsedCsvRecord> hardWords;
-
-    bool onMinuteTick();
 
     void finish();
     void refresh();

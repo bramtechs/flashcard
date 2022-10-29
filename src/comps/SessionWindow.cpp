@@ -7,9 +7,8 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     // FIXME try to merge init with constructor if possible
 
     // setup timer label
-    timerLabel = nullptr;
-    builder->get_widget("SessionTimer", timerLabel);
-    timerLabelOriginalText = timerLabel->get_text();
+    clock = nullptr;
+    builder->get_widget_derived("SessionTimer", clock);
 
     // collect components
     builder->get_widget("SessionWord", wordLabel);
@@ -31,26 +30,16 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     goodButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::goodWord));
     badButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::badWord));
 
-    auto con = Glib::signal_timeout().connect_seconds(sigc::mem_fun(*this,
-                                                                    &SessionWindow::onMinuteTick),
-                                                      60);
 }
 
 void SessionWindow::init(structs::Session &ses) {
     session = ses;
-    minutesPassed = 0;
     currentIndex = 0;
     answerVisible = false;
-    refresh();
     hardWords.clear();
-    logger::log("Initialized new session!");
-}
-
-bool SessionWindow::onMinuteTick() {
-    logger::log("minute passed");
-    minutesPassed++;
     refresh();
-    return true;
+    clock->reset();
+    logger::log("Initialized new session!");
 }
 
 void SessionWindow::nextWord() {
@@ -110,10 +99,6 @@ void SessionWindow::refresh() {
     sessionProgress->set_text(progressText);
     double frac = (currentIndex + 1) / (double) session.records.size();
     sessionProgress->set_fraction(frac);
-
-    // update clock
-    std::string clockText = timerLabelOriginalText + std::to_string(minutesPassed) + " min";
-    timerLabel->set_text(clockText);
 }
 
 void SessionWindow::finish() {
