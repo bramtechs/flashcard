@@ -20,10 +20,16 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     builder->get_widget("SessionPrevious", prevButton);
     builder->get_widget("SessionProgress", sessionProgress);
 
+    builder->get_widget("SessionGood", goodButton);
+    builder->get_widget("SessionBad", badButton);
+
     // link components
     sessionSwitch->property_active().signal_changed().connect(sigc::mem_fun(*this, &SessionWindow::toggleAnswer));
     nextButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::nextWord));
     prevButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::previousWord));
+
+    goodButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::goodWord));
+    badButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::badWord));
 
     auto con = Glib::signal_timeout().connect_seconds(sigc::mem_fun(*this,
                                                                     &SessionWindow::onMinuteTick),
@@ -49,10 +55,7 @@ bool SessionWindow::onMinuteTick() {
 void SessionWindow::nextWord() {
     currentIndex++;
     if (currentIndex >= session.records.size()) {
-        // TODO finish
-        logger::log("Finished!");
-        hide();
-        currentIndex = 0;
+        finish();
     } else {
         answerVisible = false;
         sessionSwitch->set_state(false);
@@ -69,11 +72,17 @@ void SessionWindow::previousWord() {
 }
 
 void SessionWindow::goodWord() {
-
+    session.records.erase(session.records.begin() + currentIndex);
+    logger::log("Removed easy word from session");
+    refresh();
+    if (currentIndex >= session.records.size()) {
+        finish();
+    }
 }
 
 void SessionWindow::badWord() {
 
+    logger::log("Logged hard word to buffer");
 }
 
 void SessionWindow::toggleAnswer() {
@@ -108,4 +117,10 @@ void SessionWindow::refresh() {
     // update clock
     std::string clockText = timerLabelOriginalText + std::to_string(minutesPassed) + " min";
     timerLabel->set_text(clockText);
+}
+
+void SessionWindow::finish() {
+    logger::log("Finished!");
+    hide();
+    currentIndex = 0;
 }

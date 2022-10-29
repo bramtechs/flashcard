@@ -7,4 +7,4 @@
 
 - [ ] Fix spaghetti code-base
 - [ ] Write testing
-- [ ] Package to all the platforms
+- [ ] Create install script 

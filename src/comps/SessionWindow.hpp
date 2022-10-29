@@ -19,6 +19,8 @@ private:
     Gtk::Switch *sessionSwitch;
     Gtk::Button *nextButton;
     Gtk::Button *prevButton;
+    Gtk::Button *goodButton;
+    Gtk::Button *badButton;
     Gtk::ProgressBar *sessionProgress;
 
     // TODO put in own class
@@ -26,6 +28,7 @@ private:
     std::string timerLabelOriginalText;
     bool onMinuteTick();
 
+    void finish();
     void refresh();
     void nextWord();
     void previousWord();
