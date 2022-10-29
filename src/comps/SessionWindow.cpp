@@ -42,6 +42,7 @@ void SessionWindow::init(structs::Session &ses) {
     currentIndex = 0;
     answerVisible = false;
     refresh();
+    hardWords.clear();
     logger::log("Initialized new session!");
 }
 
@@ -73,7 +74,7 @@ void SessionWindow::previousWord() {
 
 void SessionWindow::goodWord() {
     session.records.erase(session.records.begin() + currentIndex);
-    logger::log("Removed easy word from session");
+    logger::log("Removed word from session");
     refresh();
     if (currentIndex >= session.records.size()) {
         finish();
@@ -81,8 +82,11 @@ void SessionWindow::goodWord() {
 }
 
 void SessionWindow::badWord() {
-
+    parser::ParsedCsvRecord *entry = &session.records.at(currentIndex);
+    hardWords.push_back(*entry);
     logger::log("Logged hard word to buffer");
+
+    goodWord();
 }
 
 void SessionWindow::toggleAnswer() {
@@ -91,14 +95,7 @@ void SessionWindow::toggleAnswer() {
 }
 
 void SessionWindow::refresh() {
-
-    parser::ParsedCsvRecord *entry = nullptr;
-    try {
-        entry = &session.records.at(currentIndex);
-    } catch (std::out_of_range &ex) {
-        logger::error("Out of range: " + std::string(ex.what()));
-        return;
-    }
+    parser::ParsedCsvRecord *entry = &session.records.at(currentIndex);
 
     // update word and definition
     wordLabel->set_text(entry->word);

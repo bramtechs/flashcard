@@ -26,6 +26,9 @@ private:
     // TODO put in own class
     Gtk::Label* timerLabel;
     std::string timerLabelOriginalText;
+
+    std::vector<parser::ParsedCsvRecord> hardWords;
+
     bool onMinuteTick();
 
     void finish();
@@ -35,4 +38,5 @@ private:
     void goodWord();
     void badWord();
     void toggleAnswer();
+
 };
