@@ -6,6 +6,8 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
         : Gtk::ApplicationWindow(obj) {
     // FIXME try to merge init with constructor if possible
 
+    exportDialog = nullptr;
+
     // setup timer label
     clock = nullptr;
     builder->get_widget_derived("SessionTimer", clock);
@@ -22,6 +24,8 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     builder->get_widget("SessionGood", goodButton);
     builder->get_widget("SessionBad", badButton);
 
+    builder->get_widget("SessionSave",exportButton);
+
     // link components
     sessionSwitch->property_active().signal_changed().connect(sigc::mem_fun(*this, &SessionWindow::toggleAnswer));
     nextButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::nextWord));
@@ -30,6 +34,7 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     goodButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::goodWord));
     badButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::badWord));
 
+    exportButton->signal_clicked().connect(sigc::mem_fun(*this, &SessionWindow::exportHard));
 }
 
 void SessionWindow::init(structs::Session &ses) {
@@ -43,12 +48,10 @@ void SessionWindow::init(structs::Session &ses) {
 }
 
 void SessionWindow::nextWord() {
-    currentIndex++;
-    if (currentIndex >= session.records.size()) {
-        finish();
-    } else {
+    if (currentIndex < session.records.size() - 1) {
         answerVisible = false;
         sessionSwitch->set_state(false);
+        currentIndex++;
         refresh();
     }
 }
@@ -65,9 +68,6 @@ void SessionWindow::goodWord() {
     session.records.erase(session.records.begin() + currentIndex);
     logger::log("Removed word from session");
     refresh();
-    if (currentIndex >= session.records.size()) {
-        finish();
-    }
 }
 
 void SessionWindow::badWord() {
@@ -94,6 +94,13 @@ void SessionWindow::refresh() {
         definitionLabel->set_text("???");
     }
 
+    // make next/ prev buttons (not) interactable
+    prevButton->set_sensitive(currentIndex > 0);
+    nextButton->set_sensitive(currentIndex < session.records.size() - 1);
+
+    // export interactable
+    exportButton->set_sensitive(!hardWords.empty());
+
     // progress
     const std::string progressText = std::to_string(currentIndex + 1) + " / " + std::to_string(session.records.size());
     sessionProgress->set_text(progressText);
@@ -101,8 +108,24 @@ void SessionWindow::refresh() {
     sessionProgress->set_fraction(frac);
 }
 
-void SessionWindow::finish() {
-    logger::log("Finished!");
-    hide();
-    currentIndex = 0;
+void SessionWindow::exportResponded(int response) {
+    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_YES) {
+        std::string filepath = exportDialog->get_filename();
+
+        std::string result = parser::records_to_string(hardWords);
+        utils::write_string_to_file(filepath, result);
+        logger::log("Exported hard words to " + filepath);
+    } else {
+        logger::warn("Gave unexpected response " + std::to_string(response));
+    }
+    delete exportDialog;
+    exportDialog = nullptr;
 }
+
+void SessionWindow::exportHard() {
+    logger::log("Exporting hard words");
+    exportDialog = picker::allocate_save_csv_dialog();
+    exportDialog->signal_response().connect(sigc::mem_fun(*this, &SessionWindow::exportResponded));
+    exportDialog->show();
+}
+

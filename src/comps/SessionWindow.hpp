@@ -21,12 +21,14 @@ private:
     Gtk::Button *prevButton;
     Gtk::Button *goodButton;
     Gtk::Button *badButton;
+    Gtk::Button *exportButton;
+
     Gtk::ProgressBar *sessionProgress;
+    Gtk::FileChooserDialog *exportDialog;
     SessionClock *clock;
 
     std::vector<parser::ParsedCsvRecord> hardWords;
 
-    void finish();
     void refresh();
     void nextWord();
     void previousWord();
@@ -34,4 +36,6 @@ private:
     void badWord();
     void toggleAnswer();
 
+    void exportHard();
+    void exportResponded(int response);
 };

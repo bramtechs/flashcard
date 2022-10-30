@@ -444,6 +444,22 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="SessionSave">
+                <property name="label">gtk-save-as</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Export all the words you marked as 'Wrong'</property>
+                <property name="use-stock">True</property>
+                <property name="always-show-image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
             </child>
@@ -456,8 +472,8 @@
                 <property name="use-stock">True</property>
                 <property name="image-position">right</property>
                 <property name="always-show-image">True</property>
-                <accelerator key="k" signal="clicked"/>
                 <accelerator key="Return" signal="clicked"/>
+                <accelerator key="k" signal="clicked"/>
               </object>
               <packing>
                 <property name="expand">True</property>
