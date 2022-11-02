@@ -24,7 +24,7 @@ SessionWindow::SessionWindow(Gtk::ApplicationWindow::BaseObjectType *obj, const 
     builder->get_widget("SessionGood", goodButton);
     builder->get_widget("SessionBad", badButton);
 
-    builder->get_widget("SessionSave",exportButton);
+    builder->get_widget("SessionSave", exportButton);
 
     // link components
     sessionSwitch->property_active().signal_changed().connect(sigc::mem_fun(*this, &SessionWindow::toggleAnswer));
@@ -66,16 +66,19 @@ void SessionWindow::previousWord() {
 
 void SessionWindow::goodWord() {
     session.records.erase(session.records.begin() + currentIndex);
+    answerVisible = false;
+    sessionSwitch->set_state(false);
     logger::log("Removed word from session");
     refresh();
 }
 
 void SessionWindow::badWord() {
     parser::ParsedCsvRecord *entry = &session.records.at(currentIndex);
+    answerVisible = false;
+    sessionSwitch->set_state(false);
     hardWords.push_back(*entry);
     logger::log("Logged hard word to buffer");
-
-    goodWord();
+    goodWord(); // lmao don't question it
 }
 
 void SessionWindow::toggleAnswer() {
