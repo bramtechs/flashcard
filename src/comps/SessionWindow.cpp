@@ -65,10 +65,12 @@ void SessionWindow::previousWord() {
 }
 
 void SessionWindow::goodWord() {
-    session.records.erase(session.records.begin() + currentIndex);
+    if (session.records.size() > 1) {
+        session.records.erase(session.records.begin() + currentIndex);
+        logger::log("Removed word from session");
+    }
     answerVisible = false;
     sessionSwitch->set_state(false);
-    logger::log("Removed word from session");
     refresh();
 }
 
@@ -77,6 +79,7 @@ void SessionWindow::badWord() {
     answerVisible = false;
     sessionSwitch->set_state(false);
     hardWords.push_back(*entry);
+
     logger::log("Logged hard word to buffer");
     goodWord(); // lmao don't question it
 }
