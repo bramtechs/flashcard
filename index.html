@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Flashcard Web</title>
+        <script type="module" src="/src/main.ts"></script>
+    </head>
+    <body>
+        <section id="configuration">
+            <h1>Distraction free flashcards</h1>
+            <em>Quizlet is a bloated mess so I created this instead.</em>
+            <hr>
+            <form>
+                <label for="words">Paste your words and definitions below! (seperator must be ';' and only once per line)</label>
+                <textarea id="words" rows="30" cols="30" placeholder=""></textarea>
+                <label class="error hidden" for="words">Some words did not get parsed correctly, check your syntax!</label>
+                <button id="gen-url">Generate URL</button>
+                <input type="submit" value="Start" />
+            </form>
+            <div id="preview">
+                <h2>Preview</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Words</th>
+                            <th>Definitions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <footer>
+                <a href="https://github.com/bramtechs/flashcard-gtk">Source code - GPLv3 - report bugs</a>
+            </footer>
+        </section>
+        <section id="session">
+            <div id="toolbar">
+                <button>Fullscreen</button>
+                <button>Cancel</button>
+                <p id="timer">0 min</p>
+            </div>
+            <div id="card-holder">
+                <div id="card">
+                </div>
+            </div>
+            <div id="actions">
+                <button>❌ Unknown</button>
+                <button>✅ Known</button>
+            </div>
+        </section>
+    </body>
+</html>

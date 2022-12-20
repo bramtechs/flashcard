@@ -1,0 +1,92 @@
+body {
+    background-color: green;
+    color: white;
+    font-family: "Arial","Ubuntu", sans-serif;
+}
+
+input,
+textarea {
+    display: block;
+}
+
+td,table {
+    border: thin solid black;
+}
+
+input[type="submit"] {
+    margin-top: 1rem;
+    width: 220px;
+    height: 30px;
+}
+
+.error {
+    color: yellow;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    margin-top: 1rem;
+}
+
+/*
+ * Flexbox abuse
+*/
+#card-holder {
+    width: 100vw;
+    height: 250px;
+    padding-top: 5vh;
+    display: flex;
+    justify-content: center;
+}
+
+#card {
+    width: 400px;
+    height: 200px;
+    border: thin solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: whitesmoke;
+    color: black;
+    user-select: none;
+}
+
+#card:hover {
+    background-color: white;
+    border: thin solid yellow;
+}
+
+@keyframes flip {
+    from {
+        transform: rotateX(0deg);
+    }
+    to {
+        transform: rotateX(180deg);
+    }
+}
+
+#card.flip {
+    animation: linear;
+    animation-name: flip;
+    animation-duration: 0.3s;
+}
+
+#card.flip * {
+    display: none;
+}
+
+#toolbar, #actions {
+    text-align: center;
+}
+
+#toolbar p {
+    display: inline; 
+}
+
+.hidden {
+    display: none !important;
+}
