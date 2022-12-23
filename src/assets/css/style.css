@@ -83,6 +83,10 @@ footer {
     text-align: center;
 }
 
+#actions p {
+    display: block;
+}
+
 #toolbar p {
     display: inline; 
 }

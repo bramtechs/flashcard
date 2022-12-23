@@ -1,23 +1,9 @@
 import queryString from "query-string";
 import {navigate, Sections, WordPair} from "./main";
 import {initSession, startSession} from "./session";
+import {renderTable} from "./utils";
 
 const Placeholder = "Goedemorgen; Good morning\nBonne journee; Have a good day\nありがとう; Thank you"
-
-export function renderPreview(words: Array<WordPair>) {
-    const $tbody = <HTMLTableElement>document.querySelector("#preview tbody");
-    $tbody.innerHTML = "";
-
-    words.forEach((p) => {
-        const html = `
-            <tr>
-                <td>${p.word}</td>
-                <td>${p.definition}</td>
-            </tr>
-        `;
-        $tbody.insertAdjacentHTML("beforeend", html);
-    });
-}
 
 export function showHideParseError(visible: boolean) {
     const $error = <HTMLLabelElement>document.querySelector("form .error");
@@ -64,7 +50,8 @@ export function wordAreaParseContent($area: HTMLTextAreaElement) {
 
     showHideParseError(false);
     if (result[0] === true) {
-        renderPreview(result[1]);
+        const $tbody = <HTMLTableElement>document.querySelector("#preview tbody");
+        renderTable($tbody,result[1]);
     } else {
         showHideParseError(true);
     }

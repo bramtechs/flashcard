@@ -11,6 +11,7 @@ export interface WordPair {
 export enum Sections {
     CONFIG,
     SESSION,
+    RESULTS,
 }
 
 function createStyle(content: string): HTMLStyleElement{

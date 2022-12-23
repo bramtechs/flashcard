@@ -46,8 +46,37 @@
                 </div>
             </div>
             <div id="actions">
-                <button>❌ Unknown</button>
-                <button>✅ Known</button>
+                <button id="unknown-button">❌ Unknown</button>
+                <button id="known-button">✅ Known</button>
+                <p id="counts">0 - 0</p>
+            </div>
+        </section>
+        <section id="results">
+            <h2>Done!</h2>
+            <p>Percentage known: <span id="percentage">0</span>%</p>
+            <div class="column">
+                <h3>Easy peasy! 😎</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Words</th>
+                            <th>Definitions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="easy-table"></tbody>
+                </table>
+            </div>
+            <div class="column">
+                <h3>Still needs work...</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Words</th>
+                            <th>Definitions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hard-table"></tbody>
+                </table>
             </div>
         </section>
     </body>
