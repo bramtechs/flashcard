@@ -68,7 +68,6 @@ export function prepareSession(){
     const result = parseWords($wordArea.value);
     if (result[0]){
         const pairs = result[1];
-        navigate(Sections.SESSION);
         startSession(pairs); 
         console.log(pairs);
     }else{
@@ -103,8 +102,4 @@ export default function initConfigForm() {
         e.preventDefault();
         generateURL($wordArea);
     });
-
-
-    // testing
-    prepareSession();
 }

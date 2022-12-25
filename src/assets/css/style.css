@@ -91,6 +91,14 @@ footer {
     display: inline; 
 }
 
+#gen-url {
+    margin-top: 0.2rem;
+}
+
+#retry-buttons {
+    margin-top: 1rem;
+}
+
 .hidden {
     display: none !important;
 }

@@ -71,6 +71,7 @@ function pressedUnknownButton(e: Event) {
 }
 
 export function startSession(pairs: Array<WordPair>) {
+    navigate(Sections.SESSION);
     StartTime = Date.now();
     EasyWords = [];
     HardWords = [];
@@ -102,4 +103,9 @@ export function initSession() {
 
     const $knownButton = <HTMLButtonElement> document.querySelector("#known-button");
     $knownButton.addEventListener("click", pressedKnownButton);
+
+    const $cancelButton = <HTMLButtonElement> document.querySelector("#cancel-button");
+    $cancelButton.addEventListener("click", () => {
+        navigate(Sections.CONFIG);
+    });
 }

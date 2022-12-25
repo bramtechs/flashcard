@@ -14,7 +14,7 @@
             <hr>
             <form>
                 <label for="words">Paste your words and definitions below! (seperator must be ';' and only once per line)</label>
-                <textarea id="words" rows="30" cols="30" placeholder=""></textarea>
+                <textarea id="words" rows="20" cols="30" placeholder=""></textarea>
                 <label class="error hidden" for="words">Some words did not get parsed correctly, check your syntax!</label>
                 <button id="gen-url">Generate URL</button>
                 <input type="submit" value="Start" />
@@ -38,7 +38,7 @@
         <section id="session">
             <div id="toolbar">
                 <button>Fullscreen</button>
-                <button>Cancel</button>
+                <button id="cancel-button">Cancel</button>
                 <p id="timer">0 min</p>
             </div>
             <div id="card-holder">
@@ -67,7 +67,7 @@
                 </table>
             </div>
             <div class="column">
-                <h3>Still needs work...</h3>
+                <h3>Still needs work... ❌</h3>
                 <table>
                     <thead>
                         <tr>
@@ -77,6 +77,11 @@
                     </thead>
                     <tbody id="hard-table"></tbody>
                 </table>
+            </div>
+            <div id="retry-buttons">
+                <button id="back-button">Go back</button>
+                <button id="retry-hard">Retry with hard words</button>
+                <button id="retry-all">Retry with all words</button>
             </div>
         </section>
     </body>
